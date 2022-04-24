@@ -4,6 +4,7 @@ const mailchimp = require("@mailchimp/mailchimp_marketing");
 
 const app = express();
 
+app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
@@ -21,7 +22,7 @@ app.post("/", (req, res) => {
     const email = req.body.email;
 
     mailchimp.setConfig({
-        apiKey: "b9f572e14b011f458cc832445d6d8a53-us14",
+        apiKey: "6d86f9aebbc9d30cc9e7cb0820359b07-us14",
         server: "us14",
     });
 
@@ -40,7 +41,15 @@ app.post("/", (req, res) => {
         });
 
         if (response.error_count) {
-            res.sendFile(__dirname + "/failure.html");
+            //res.sendFile(__dirname + "/failure.html");
+            const errorCode = response.errors[0].error_code;
+            const error = response.errors[0].error;
+            const errReason =
+                errorCode === "ERROR_CONTACT_EXISTS"
+                    ? error.substring(0, 39)
+                    : error;
+
+            res.render("failure", { errorType: errReason });
         } else {
             res.sendFile(__dirname + "/success.html");
         }

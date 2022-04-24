@@ -14,13 +14,12 @@
         <div class="container mt-3">
             <div class="mt-5 p-5 bg-dark text-white rounded">
                 <h1>Uh oh!</h1>
-                <p id="error">
-                    Sorry something went wrong,following are may be the reasons
-                </p>
-                <ul>
+                <p id="error">Sorry something went wrong!!!</p>
+                <!-- <ul>
                     <li>your email id may be invalid or fake</li>
                     <li>you may already signed up for newsletter</li>
-                </ul>
+                </ul> -->
+                <p><%=errorType%></p>
                 <br />
                 <form action="/failure" method="post">
                     <button type="submit" class="btn btn-lg btn-info">
