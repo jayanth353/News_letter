@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const mailchimp = require("@mailchimp/mailchimp_marketing");
+require("dotenv").config();
 
 const app = express();
 
@@ -22,8 +23,8 @@ app.post("/", (req, res) => {
     const email = req.body.email;
 
     mailchimp.setConfig({
-        apiKey: "6d86f9aebbc9d30cc9e7cb0820359b07-us14",
-        server: "us14",
+        apiKey: process.env.API_KEY,
+        server: process.env.SERVER,
     });
 
     const run = async () => {
@@ -46,7 +47,7 @@ app.post("/", (req, res) => {
             const error = response.errors[0].error;
             const errReason =
                 errorCode === "ERROR_CONTACT_EXISTS"
-                    ? error.substring(0, 39)
+                    ? error.substring(0, 42)
                     : error;
 
             res.render("failure", { errorType: errReason });
